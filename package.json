@@ -1,0 +1,21 @@
+{
+  "name": "tasker",
+  "version": "1.0.0",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "electron": "^32.0.1",
+    "electron-vite": "^2.3.0",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10"
+  }
+}
