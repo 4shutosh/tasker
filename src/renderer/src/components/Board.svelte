@@ -1,18 +1,30 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { afterUpdate, onMount } from 'svelte'
   import TaskerDay from './TaskerDay.svelte'
 
   export let isNavExpanded: boolean = true
   export let handleCollapseClick
+  const today = new Date()
 
   let daysList = []
 
   onMount(() => {
     daysList = getDaysFromToday()
+
+    setTimeout(() => {
+      const daysScroller = document.getElementById('daysScroller')
+      const target = document.getElementById('item-7')
+
+      console.log('target' + target)
+      console.log('daysScroller' + daysScroller)
+
+      if (daysScroller && target) {
+        daysScroller.scrollLeft = target.offsetLeft // Set scroll position to target item's left position
+      }
+    }, 100)
   })
 
   function getDaysFromToday(): Date[] {
-    const today = new Date()
     const days = []
 
     for (let i = -7; i <= 7; i++) {
@@ -53,9 +65,12 @@
     <div class="px-4 py-2 text-colorOnSurface">Today</div>
   </div>
 
-  <div class="flex-1 overflow-x-auto overflow-y-hidden flex pt-5 px-2 gap-2 h-max">
-    {#each daysList as day}
-      <TaskerDay {day} />
+  <div
+    id="daysScroller"
+    class="flex-1 overflow-x-auto overflow-y-hidden flex pt-5 px-2 gap-4 h-max"
+  >
+    {#each daysList as day, index}
+      <TaskerDay {day} id={'item-' + index} />
     {/each}
   </div>
 </div>
