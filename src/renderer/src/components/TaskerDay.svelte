@@ -1,8 +1,10 @@
 <script lang="ts">
-  export let day: Date
+  import type { TaskerDayItem } from '../types/types'
+
+  export let taskerDay: TaskerDayItem
   export let id: string
   const today = new Date()
-  let isDateInFuture = today.getTime() <= day.getTime()
+  let isDateInFuture = today.getTime() <= taskerDay.day.getTime()
 </script>
 
 <div
@@ -18,14 +20,14 @@ w-60 rounded-md"
         class={`px-2 text-xl 
               ${isDateInFuture ? 'text-textColorPrimary' : 'text-textColorDisabled'}`}
       >
-        {day.toLocaleDateString('en-US', { weekday: 'long' })}
+        {taskerDay.day.toLocaleDateString('en-US', { weekday: 'long' })}
       </div>
       <div
         class={`px-2 text-sm whitespace-nowrap
               font-light 
               ${isDateInFuture ? 'text-textColorSecondary' : 'text-textColorDisabledSecondary'}`}
       >
-        {day.toLocaleDateString('en-US', { day: 'numeric', month: 'long' })}
+        {taskerDay.day.toLocaleDateString('en-US', { day: 'numeric', month: 'long' })}
       </div>
     </div>
   </div>

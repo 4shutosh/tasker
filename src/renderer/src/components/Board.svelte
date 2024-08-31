@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import TaskerDay from './TaskerDay.svelte'
+  import type { TaskerDayItem } from '../types/types'
 
   export let isNavExpanded: boolean = true
   export let handleCollapseClick
@@ -9,37 +10,36 @@
 
   let daysScroller: HTMLElement
 
-  let daysList = []
-  const startScrollPosition: number = 8
+  let daysList: TaskerDayItem[] = []
   const itemGap = 16 // gap-4 in tailwind (1rem = 16px by default)
 
   onMount(() => {
     daysList = getDaysFromToday()
 
     setTimeout(() => {
-      scrollToItem(startScrollPosition)
+      scrollToItem(daysList)
     }, 0)
   })
 
-  function scrollToItem(position: number): void {
-    const item = document.getElementById('item-0')
-
+  function scrollToItem(list: TaskerDayItem[]): void {
+    const item = document.getElementById('item-' + today.getTime())
+    const position = list.findIndex((item) => item.id == 'item-' + today.getTime()) + 1
     if (daysScroller && item) {
       const itemWidth = item.clientWidth + itemGap
       daysScroller.scrollLeft = itemWidth * position
     }
   }
 
-  function getDaysFromToday(): Date[] {
-    const days = []
+  function getDaysFromToday(): TaskerDayItem[] {
+    const taskerDays: TaskerDayItem[] = []
 
-    for (let i = -7; i <= 7; i++) {
+    for (let i = -10; i <= 10; i++) {
       const date = new Date(today)
       date.setDate(today.getDate() + i)
-      days.push(date) // or use .toISOString(), .toLocaleDateString(), etc.
+      taskerDays.push({ id: 'item-' + date.getTime(), day: date }) // or use .toISOString(), .toLocaleDateString(), etc.
     }
 
-    return days
+    return taskerDays
   }
 </script>
 
@@ -75,8 +75,8 @@
     bind:this={daysScroller}
     class="flex-1 overflow-x-auto overflow-y-hidden flex pt-5 px-2 gap-4 h-max"
   >
-    {#each daysList as day, index}
-      <TaskerDay {day} id={'item-' + index} />
+    {#each daysList as taskerDay}
+      <TaskerDay {taskerDay} id={taskerDay.id} />
     {/each}
   </div>
 </div>
