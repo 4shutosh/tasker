@@ -22,8 +22,8 @@
   })
 
   function scrollToItem(list: TaskerDayItem[]): void {
-    const item = document.getElementById('item-' + today.getTime())
-    const position = list.findIndex((item) => item.id == 'item-' + today.getTime()) + 1
+    const item = document.getElementById('item-' + today.toLocaleDateString())
+    const position = list.findIndex((item) => item.id == 'item-' + today.toLocaleDateString())
     if (daysScroller && item) {
       const itemWidth = item.clientWidth + itemGap
       daysScroller.scrollLeft = itemWidth * position
@@ -36,7 +36,7 @@
     for (let i = -10; i <= 10; i++) {
       const date = new Date(today)
       date.setDate(today.getDate() + i)
-      taskerDays.push({ id: 'item-' + date.getTime(), day: date }) // or use .toISOString(), .toLocaleDateString(), etc.
+      taskerDays.push({ id: 'item-' + date.toLocaleDateString(), day: date }) // or use .toISOString(), .toLocaleDateString(), etc.
     }
 
     return taskerDays
@@ -48,7 +48,9 @@
   bg-colorSurfaceSecondary
   border-[0.5px] border-borderPrimary rounded"
 >
-  <div class="sticky top-0 flex px-4 items-center border-t border-b border-borderPrimary">
+  <div
+    class="sticky top-0 flex px-4 items-center border-t border-b border-[0.25px] border-borderPrimary"
+  >
     {#if !isNavExpanded}
       <svg
         class="mx-2 rotate-180 fill-colorOnSurface"

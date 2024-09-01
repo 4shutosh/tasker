@@ -1,31 +1,36 @@
 <script lang="ts">
   import type { TaskerDayItem } from '../types/types'
+  import AddTaskButton from './AddTaskButton.svelte'
 
   export let taskerDay: TaskerDayItem
   export let id: string
   const today = new Date()
-  let isDateInFuture = today.getTime() <= taskerDay.day.getTime()
+  today.setHours(0, 0, 0, 0) // Set the time of 'today' to midnight
+  const comparisonDate = new Date(taskerDay.day)
+  comparisonDate.setHours(0, 0, 0, 0)
+
+  let isDateInPresentOrFuture = today.getTime() <= comparisonDate.getTime()
 </script>
 
 <div
   {id}
   class="flex flex-shrink-0 flex-col
-bg-colorSurfaceSecondary gap-2
-w-60 rounded-md"
+  bg-colorSurfaceSecondary gap-2
+  w-60 rounded-md"
 >
   <div class="flex">
     <!-- Day header - weekday, month name, date -->
     <div class="flex flex-col">
       <div
         class={`px-2 text-xl 
-              ${isDateInFuture ? 'text-textColorPrimary' : 'text-textColorDisabled'}`}
+              ${isDateInPresentOrFuture ? 'text-textColorPrimary' : 'text-textColorDisabled'}`}
       >
         {taskerDay.day.toLocaleDateString('en-US', { weekday: 'long' })}
       </div>
       <div
         class={`px-2 text-sm whitespace-nowrap
               font-light 
-              ${isDateInFuture ? 'text-textColorSecondary' : 'text-textColorDisabledSecondary'}`}
+              ${isDateInPresentOrFuture ? 'text-textColorSecondary' : 'text-textColorDisabledSecondary'}`}
       >
         {taskerDay.day.toLocaleDateString('en-US', { day: 'numeric', month: 'long' })}
       </div>
@@ -33,21 +38,6 @@ w-60 rounded-md"
   </div>
 
   <!-- Add Task Button -->
-  <div
-    class={`flex rounded
-    mt-4
-    px-2 py-1 items-center
-    text-sm
-    bg-cardBackgroundPrimary`}
-  >
-    <svg
-      class="mr-2 fill-textColorSecondary"
-      xmlns="http://www.w3.org/2000/svg"
-      height="15"
-      viewBox="0 -960 960 960"
-      width="15"><path d="M450-450H200v-60h250v-250h60v250h250v60H510v250h-60v-250Z" /></svg
-    >
-    <div class="text-textColorSecondary">Add a Task</div>
-  </div>
+  <AddTaskButton />
   <!-- List of Tasks go here -->
 </div>
