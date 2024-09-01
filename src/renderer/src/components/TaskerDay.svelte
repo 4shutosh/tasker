@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { TaskerDayItem } from '../types/types'
+  import type { TaskItem, TaskerDayItem } from '../types/types'
   import AddTaskButton from './AddTaskButton.svelte'
+  import Task from './Task.svelte'
 
   export let taskerDay: TaskerDayItem
   export let id: string
@@ -10,13 +11,15 @@
   comparisonDate.setHours(0, 0, 0, 0)
 
   let isDateInPresentOrFuture = today.getTime() <= comparisonDate.getTime()
+
+  export let listOfTasks: TaskItem[] = []
 </script>
 
 <div
   {id}
   class="flex flex-shrink-0 flex-col
   bg-colorSurfaceSecondary gap-2
-  w-60 rounded-md"
+  w-64 rounded-md"
 >
   <div class="flex">
     <!-- Day header - weekday, month name, date -->
@@ -38,6 +41,13 @@
   </div>
 
   <!-- Add Task Button -->
-  <AddTaskButton />
+  <AddTaskButton isToday={today.getDate() == comparisonDate.getDate()} />
   <!-- List of Tasks go here -->
+  {#if listOfTasks != undefined}
+    <div class="flex flex-col gap-2">
+      {#each listOfTasks as task}
+        <Task {task} />
+      {/each}
+    </div>
+  {/if}
 </div>
