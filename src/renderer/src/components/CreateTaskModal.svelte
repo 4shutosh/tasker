@@ -1,16 +1,43 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
+  import { onMount, onDestroy } from 'svelte'
+  import { addTaskItem } from '../database/tasksDb'
+  import type { TaskItem } from '../types/types'
   let inputRef
 
   let placeholder = 'Task Description...'
   let inputValue = ''
 
+  let today = new Date()
+
   onMount(() => {
     setTimeout(() => {
       inputRef.focus()
     }, 0)
+    window.addEventListener('keydown', handleKeyDown)
   })
+
+  onDestroy(() => {
+    window.removeEventListener('keydown', handleKeyDown)
+  })
+
+  function handleKeyDown(event): void {
+    if (event.key === 'Enter') {
+      // Add the action you want to perform when "A" is pressed
+      if (inputValue != '') {
+        saveItem()
+      }
+    }
+  }
+
+  function saveItem(): void {
+    let item: TaskItem = {
+      id: inputValue + today.toLocaleTimeString(),
+      title: inputValue,
+      taskTime: today,
+      isCompleted: false
+    }
+    addTaskItem(item)
+  }
 </script>
 
 <div class="z-50 flex flex-col w-2/5 m-8 mt-[25vh]" id="create-task-root">
