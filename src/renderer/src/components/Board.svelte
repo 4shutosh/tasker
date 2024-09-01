@@ -1,10 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import TaskerDay from './TaskerDay.svelte'
-  import type { TaskerDayItem } from '../types/types'
+  import type { TaskItem, TaskerDayItem } from '../types/types'
+
+  import { getAllItemsGroupedByDate } from '../database/tasksDb'
 
   export let isNavExpanded: boolean = true
   export let handleCollapseClick
+
+  let tasksDateMap: Map<string, TaskItem[]>
 
   const today = new Date()
 
@@ -18,6 +22,7 @@
 
     setTimeout(() => {
       scrollToItem(daysList)
+      getAllTasksMap()
     }, 0)
   })
 
@@ -40,6 +45,21 @@
     }
 
     return taskerDays
+  }
+
+  function getAllTasksMap(): void {
+    let items = getAllItemsGroupedByDate()
+    items
+      .then((map) => {
+        tasksDateMap = map
+        map.forEach((value, key) => {
+          console.log('found item value' + value)
+          console.log('found item key ' + key)
+        })
+      })
+      .catch((error) => {
+        console.error('getting all items failed ' + error)
+      })
   }
 </script>
 
@@ -78,7 +98,13 @@
     class="flex-1 overflow-x-auto overflow-y-hidden flex pt-5 px-2 gap-4 h-max"
   >
     {#each daysList as taskerDay}
-      <TaskerDay {taskerDay} id={taskerDay.id} />
+      <TaskerDay
+        {taskerDay}
+        id={taskerDay.id}
+        listOfTasks={tasksDateMap && taskerDay.day
+          ? tasksDateMap.get(taskerDay.day.toISOString().split('T')[0])
+          : undefined}
+      />
     {/each}
   </div>
 </div>
