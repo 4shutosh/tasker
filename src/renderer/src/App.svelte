@@ -1,6 +1,5 @@
 <script lang="ts">
   import Versions from './components/Versions.svelte'
-  import electronLogo from './assets/electron.svg'
   import Nav from './components/nav/Nav.svelte'
   import Board from './components/Board.svelte'
   import CreateTaskModal from './components/CreateTaskModal.svelte'
@@ -38,10 +37,7 @@
 </script>
 
 <div class="relative p-2 bg-colorSurface h-screen w-screen">
-  <div
-    class={`grid h-full
-      ${isNavExpanded ? 'grid-cols-[200px_1fr]' : 'grid-cols-1'}`}
-  >
+  <div class={`flex h-full`}>
     <Nav {isNavExpanded} {handleCollapseClick} />
     <Board {isNavExpanded} {handleCollapseClick} />
   </div>

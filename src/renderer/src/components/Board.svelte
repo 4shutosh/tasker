@@ -64,7 +64,7 @@
 </script>
 
 <div
-  class="h-full flex flex-col overflow-hidden
+  class="h-full flex flex-col flex-grow overflow-hidden
   bg-colorSurfaceSecondary
   border-[0.5px] border-borderPrimary rounded"
 >
