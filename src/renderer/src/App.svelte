@@ -1,5 +1,6 @@
 <script lang="ts">
   import Versions from './components/Versions.svelte'
+  import electronLogo from './assets/electron.svg'
   import Nav from './components/nav/Nav.svelte'
   import Board from './components/Board.svelte'
   import CreateTaskModal from './components/CreateTaskModal.svelte'
@@ -26,13 +27,13 @@
     if (event.key === 'a' || event.key === 'A') {
       // Add the action you want to perform when "A" is pressed
       openAddTaskModal()
-    } else if (event.key === 'Escape') {
-      // Action for 'Escape' key press
-      isModalVisible = false
     }
   }
   function openAddTaskModal(): void {
     isModalVisible = true
+  }
+  const closeAddTaskModal = (): void => {
+    isModalVisible = false
   }
 </script>
 
@@ -44,7 +45,7 @@
   {#if isModalVisible}
     <!-- <div class={`fixed inset-0 items-center justify-center bg-transparent`} id="modal-overlay"> -->
     <div class={`fixed inset-0 flex justify-center bg-transparent`} id="modal-overlay">
-      <CreateTaskModal />
+      <CreateTaskModal closeModal={closeAddTaskModal} />
     </div>
   {/if}
 </div>

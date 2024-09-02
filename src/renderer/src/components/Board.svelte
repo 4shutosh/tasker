@@ -73,7 +73,7 @@
   >
     {#if !isNavExpanded}
       <svg
-        class="mx-2 rotate-180 fill-colorOnSurface"
+        class="rotate-180 fill-colorOnSurface hover:fill-textColorPrimary cursor-pointer"
         xmlns="http://www.w3.org/2000/svg"
         enable-background="new 0 0 20 20"
         height="20"

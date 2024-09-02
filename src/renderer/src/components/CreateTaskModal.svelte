@@ -2,10 +2,13 @@
   import { onMount, onDestroy } from 'svelte'
   import { addTaskItem } from '../database/tasksDb'
   import type { TaskItem } from '../types/types'
+
+  export let closeModal
+
   let inputRef
 
   let placeholder = 'Task Description...'
-  let inputValue = ''
+  let value = ''
 
   let today = new Date()
 
@@ -26,6 +29,9 @@
       if (inputValue != '') {
         saveItem()
       }
+    } else if (event.key === 'Escape') {
+      // Action for 'Escape' key press
+      closeModal()
     }
   }
 
@@ -38,9 +44,22 @@
     }
     addTaskItem(item)
   }
+
+  let parentDiv
+  $: inputValue = value
+
+  function autoGrowTextInputHeight(): void {
+    if (inputRef) {
+      inputRef.style.height = 'auto'
+      inputRef.style.height = inputRef.scrollHeight + 'px'
+      parentDiv.style.height = inputRef.scrollHeight + 'px'
+    }
+  }
+
+  $: if (inputValue) autoGrowTextInputHeight()
 </script>
 
-<div class="z-50 flex flex-col w-2/5 m-8 mt-[25vh]" id="create-task-root">
+<div class="z-50 flex flex-col w-[80vh] m-8 mt-[25vh]" id="create-task-root">
   <div
     class="bg-cardBackgroundPrimary flex px-2 py-1
     rounded border-[0.5px]
@@ -55,22 +74,26 @@
     shadow-lg shadow-black
   `}
   >
-    <div class={`flex`}>
-      <input
+    <div bind:this={parentDiv} class={`flex`}>
+      <textarea
         bind:this={inputRef}
-        class={`bg-cardBackgroundPrimary 
-      placeholder-textColorSecondary
-      text-textColorPrimary
-      text-md
-      mb-4
-      focus:outline-none`}
-        {placeholder}
+        on:change={autoGrowTextInputHeight}
         bind:value={inputValue}
+        rows="1"
+        {placeholder}
+        class={`bg-cardBackgroundPrimary 
+          placeholder-textColorSecondary
+          w-full resize-none overflow-hidden
+          text-textColorPrimary text-lg text-wrap
+          mb-4
+          focus:outline-none`}
       />
     </div>
 
     <div class={`flex justify-end w-full gap-2`}>
-      <div class={`flex items-center hover:bg-colorSurfaceSecondary px-2 py-1 rounded`}>
+      <div
+        class={`flex items-center hover:bg-colorSurfaceSecondary px-2 py-1 rounded cursor-pointer`}
+      >
         <!-- <CalendarIcon /> -->
         <svg
           class="fill-textColorSecondary"
@@ -85,7 +108,7 @@
         <div class={`flex text-textColorSecondary text-xs ml-1 `}>Today</div>
       </div>
       <div
-        class={`text-textColorSecondary hover:bg-colorSurfaceSecondary text-xs px-2 py-1 rounded`}
+        class={`text-textColorSecondary hover:bg-colorSurfaceSecondary text-xs px-2 py-1 rounded cursor-pointer`}
       >
         # channel
       </div>
