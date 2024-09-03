@@ -6,6 +6,7 @@
   export let closeModal
 
   let inputRef
+  let initialHeightInputDiv
 
   let placeholder = 'Task Description...'
   let value = ''
@@ -15,6 +16,7 @@
   onMount(() => {
     setTimeout(() => {
       inputRef.focus()
+      initialHeightInputDiv = getComputedStyle(inputRef).height
     }, 0)
     window.addEventListener('keydown', handleKeyDown)
   })
@@ -43,6 +45,7 @@
       isCompleted: false
     }
     addTaskItem(item)
+    closeModal()
   }
 
   let parentDiv
@@ -50,13 +53,18 @@
 
   function autoGrowTextInputHeight(): void {
     if (inputRef) {
-      inputRef.style.height = 'auto'
-      inputRef.style.height = inputRef.scrollHeight + 'px'
-      parentDiv.style.height = inputRef.scrollHeight + 'px'
+      if (inputValue === '') {
+        inputRef.style.height = initialHeightInputDiv
+        parentDiv.style.height = initialHeightInputDiv
+      } else {
+        inputRef.style.height = 'auto'
+        inputRef.style.height = inputRef.scrollHeight + 'px'
+        parentDiv.style.height = inputRef.scrollHeight + 'px'
+      }
     }
   }
 
-  $: if (inputValue) autoGrowTextInputHeight()
+  $: if (inputValue !== undefined) autoGrowTextInputHeight()
 </script>
 
 <div class="z-50 flex flex-col w-[80vh] m-8 mt-[25vh]" id="create-task-root">
