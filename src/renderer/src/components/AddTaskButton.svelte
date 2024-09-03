@@ -4,11 +4,11 @@
 
 <div
   class={`flex rounded group relative
-mt-4 px-2 py-2
-cursor-pointer
-items-center justify-start
-shadow-sm shadow-black
-bg-cardBackgroundPrimary`}
+    mt-4 px-2 py-2 mx-1
+    cursor-pointer
+    items-center justify-start
+    shadow-sm shadow-black
+    bg-cardBackgroundPrimary`}
 >
   <svg
     class="mr-2 fill-textColorSecondary"

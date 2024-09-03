@@ -2,13 +2,12 @@
   import { onMount } from 'svelte'
   import TaskerDay from './TaskerDay.svelte'
   import type { TaskItem, TaskerDayItem } from '../types/types'
-
-  import { getAllItemsGroupedByDate } from '../database/tasksDb'
+  import { allTasksDayMap, fetchAllTasksPerDay } from '../database/stores'
 
   export let isNavExpanded: boolean = true
   export let handleCollapseClick
 
-  let tasksDateMap: Map<string, TaskItem[]>
+  $: tasksDateMap = $allTasksDayMap
 
   const today = new Date()
 
@@ -22,7 +21,7 @@
 
     setTimeout(() => {
       scrollToItem(daysList)
-      getAllTasksMap()
+      fetchAllTasksPerDay()
     }, 0)
   })
 
@@ -47,20 +46,20 @@
     return taskerDays
   }
 
-  function getAllTasksMap(): void {
-    let items = getAllItemsGroupedByDate()
-    items
-      .then((map) => {
-        tasksDateMap = map
-        map.forEach((value, key) => {
-          console.log('found item value' + value)
-          console.log('found item key ' + key)
-        })
-      })
-      .catch((error) => {
-        console.error('getting all items failed ' + error)
-      })
-  }
+  // function getAllTasksMap(): void {
+  //   let items = getAllItemsGroupedByDate()
+  //   items
+  //     .then((map) => {
+  //       tasksDateMap = map
+  //       map.forEach((value, key) => {
+  //         console.log('found item value' + value)
+  //         console.log('found item key ' + key)
+  //       })
+  //     })
+  //     .catch((error) => {
+  //       console.error('getting all items failed ' + error)
+  //     })
+  // }
 </script>
 
 <div

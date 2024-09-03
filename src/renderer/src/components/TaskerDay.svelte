@@ -18,8 +18,8 @@
 <div
   {id}
   class="flex flex-shrink-0 flex-col
-  bg-colorSurfaceSecondary gap-2
-  w-64 rounded-md"
+  bg-colorSurfaceSecondary gap-2 pb-2
+  w-[42vh] rounded-md"
 >
   <div class="flex">
     <!-- Day header - weekday, month name, date -->
@@ -32,7 +32,7 @@
       </div>
       <div
         class={`px-2 text-sm whitespace-nowrap
-              font-light 
+              font-light
               ${isDateInPresentOrFuture ? 'text-textColorSecondary' : 'text-textColorDisabledSecondary'}`}
       >
         {taskerDay.day.toLocaleDateString('en-US', { day: 'numeric', month: 'long' })}
@@ -44,7 +44,7 @@
   <AddTaskButton isToday={today.getDate() == comparisonDate.getDate()} />
   <!-- List of Tasks go here -->
   {#if listOfTasks != undefined}
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 py-1 overflow-y-auto overflow-x-hidden">
       {#each listOfTasks as task}
         <Task {task} />
       {/each}

@@ -6,11 +6,11 @@
 
 <div
   class={`flex flex-col 
-bg-cardBackgroundPrimary 
-rounded py-2 px-4 
-cursor-pointer
-hover:outline hover:outline-textColorSecondary hover:outline-[0.25px]
-shadow-sm shadow-black`}
+    bg-cardBackgroundPrimary 
+    rounded py-2 px-4 mx-1
+    cursor-pointer
+    hover:outline hover:outline-textColorSecondary hover:outline-[0.25px]
+    shadow-sm shadow-black`}
 >
   <div class={`flex text-sm text-textColorPrimary`}>{task.title}</div>
   <div class={`flex py-2`}>

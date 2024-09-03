@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte'
   import { addTaskItem } from '../database/tasksDb'
   import type { TaskItem } from '../types/types'
+  import { fetchAllTasksPerDay } from '../database/stores'
 
   export let closeModal
 
@@ -46,6 +47,7 @@
     }
     addTaskItem(item)
     closeModal()
+    fetchAllTasksPerDay()
   }
 
   let parentDiv
